@@ -1,0 +1,61 @@
+body {
+    font-family: 'Bebas Neue Regular', sans-serif;
+}
+.material-icons {
+    vertical-align:-14%;
+    color: white;
+}
+.material-icons.md-48 {
+    font-size: 55px;
+    color: black;
+    vertical-align: -22%;
+}
+
+#name {
+    font-weight: bolder;
+    font-size: 1cm;
+}
+#srch-term {
+    width: 350px;
+}
+
+div#carousel-example-generic {
+    position:relative;
+}
+
+div.form-group {
+    position:absolute;
+    z-index:9999999;
+    top:150px; 
+    left:530px; 
+    right:auto; 
+    bottom:auto; 
+}
+
+@media screen and (max-width: 980px) {
+    /* Resizing search bar  */
+    div.form-group { 
+    top:75px;
+    left:20%;
+    } 
+}
+
+@media screen and (max-width: 640px) {
+    /* Resizing search bar  */
+    div.form-group {
+    top:50px;
+    left:5%;
+    } 
+}
+
+.button-page {
+    display: block;
+  }
+  /* .search-page {
+    display: none;
+  } */
+
+#mapid {
+    height: 1000px;
+    width: 1000px;
+}

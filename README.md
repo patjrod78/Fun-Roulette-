@@ -2,7 +2,7 @@
 ## Description
 Bored with nothing to do? Tired of the doing the same old thing? Then "Fun Roulette" is for you. Take the predictability or indecisiveness out of your day/night plans. 
 
- Simply click "Staying In" or Going Out" and Fun Roulette does the rest. Life is a game of chances, now your fun can be too!
+ Simply click "Staying In" or Going Out" and "Fun Roulette" does the rest. Life is a game of chances, now your fun can be too!
 
 ## Installation
 

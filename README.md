@@ -5,7 +5,7 @@ Bored with nothing to do? Tired of the doing the same old thing? Then "Fun Roule
  Simply click "Staying In" or Going Out" and "Fun Roulette" does the rest. Life is a game of chances, now your fun can be too!
 
 ## Installation
-None required. Click the foloowing link and let the fun begin!!
+None required. Click the following link and let the fun begin!!
 https://patjrod78.github.io/Fun-Roulette-/
 
 

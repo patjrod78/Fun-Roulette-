@@ -1,154 +1,275 @@
-var lng;
-var lat;
-var workAddress;
-var key;
-var queryURL;
-var map;
-var newLat;
-var newLng;
-var theaterAddress;
-var date;
-var commuteTimeQueryURL;
-var commuteTime;
-var theaterAddressArray = [];
-var Array = [];
+// Variables
+var buttonsEl = document.querySelector("#button-div");
+var homeBtnEl = document.querySelector("#home");
+var outBtnEl = document.querySelector("#out");
+var displayEl = document.querySelector("#display-choice");
+var loadingEl = document.querySelector("#loading");
 
 
-var searchTerm = document.querySelector("#srch-trm");
-var searchButton = document.querySelector("#find-address");
-var homeButton = document.querySelector("#home-button");
-var buttonPage = document.querySelector(".button-page");
-var searchPage = document.querySelector(".search-page");
-
-
-searchButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  buttonPage.style.display = "none";
-  searchPage.setAttribute("style", "display: block");
-  getSearchResults();
-});
-
-homeButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  buttonPage.style.display = "block";
-  searchPage.style.display = "none";
-});
-
-
-
-function getSearchResults() {
-  var listingAddressArray = [];
-  var listingPriceArray = [];
-  var commuteTimeArray = [];
-  $("#response-cards").empty();
-  var workAddress = $("#srch-trm").val();
-  var key = "AIzaSyCi3dzreMrxNzmaHrULhs_SCJRMpzt8FbE";
-  var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + workAddress + "&key=AIzaSyBif25LVSExkbgkV3IKS3LdU7u7A2U68ww"
-  // Converting the searched address (workAddress) into lat lng and creating a marker on the map
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function (response) {
-    var lat = response.results[0].geometry.location.lat;
-    var lng = response.results[0].geometry.location.lng;
-    var realtyData = $.parseJSON($.ajax({
-      async: true,
-      crossDomain: true,
-      "url": "https://google-maps-geocoding.p.rapidapi.com/geocode/json?address=164%20Townsend%20St.%2C%20San%20Francisco%2C%20CA&language=en",
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "c326cc20aemsh6ccec9a57aeb847p16a896jsn0724a98c2811",
-		"x-rapidapi-host": "google-maps-geocoding.p.rapidapi.com"
-      },
-      dataType: "json",
-      async: false
-    }).responseText); // This will wait until you get a response from the ajax request.
-
-    for (i = 0; i <= realtyData.listings.length - 1; i += 1) {
-      listingAddress = realtyData.listings[i].address;
-      listingPrice = realtyData.listings[i].price;
-      listingAddressArray.push(listingAddress);
-      listingPriceArray.push(listingPrice);
-      console.log(listingAddressArray);
-      console.log(listingPriceArray);
+function renderLastChoice(){
+    var choiceLs= localStorage.getItem('choice');
+    choiceLs= parseInt(JSON.parse(choiceLs));
+    console.log(choiceLs);
+    if(choiceLs === 1){
+        var movieInfo= localStorage.getItem('movieInfoLs');
+        movieInfo= JSON.parse(movieInfo);
+        var chooseAgainEl = document.createElement("p");
+            chooseAgainEl.textContent = "(Click again for another option.)";
+            displayEl.appendChild(chooseAgainEl);
+ 
+            var netflixChoiceEl = document.createElement("h1");
+            netflixChoiceEl.textContent = "Watch this movie on Netflix!"
+            displayEl.appendChild(netflixChoiceEl);
+ 
+            var titleEl = document.createElement("h2");
+            titleEl.textContent = movieInfo.title;
+            displayEl.appendChild(titleEl);
+ 
+            var ratingEl = document.createElement("span");
+            if (!movieInfo.rating) {
+                ratingEl.textContent = "Rated: NR";
+            } else {
+                ratingEl.textContent = `Rated: ${movieInfo.rating}`;
+            }
+            displayEl.appendChild(ratingEl);
+ 
+            var userRatingEl = document.createElement("div");
+            userRatingEl.textContent = `User Rating: ${movieInfo.userRating}`
+            displayEl.appendChild(userRatingEl);
+ 
+            var runtimeEl = document.createElement("div");
+            runtimeEl.textContent = `Runtime: ${movieInfo.runtime} minutes`;
+            displayEl.appendChild(runtimeEl);
+ 
+            var releaseDateEl = document.createElement("div");
+            releaseDateEl.textContent = `Released: ${movieInfo.year}`;
+            displayEl.appendChild(releaseDateEl);
+ 
+            var descriptionLabel = document.createElement("h3");
+            descriptionLabel.textContent = "Movie Summary:";
+            displayEl.appendChild(descriptionLabel);
+ 
+            var descriptionEl = document.createElement("p");
+            descriptionEl.textContent = movieInfo.description;
+            displayEl.appendChild(descriptionEl);
     }
-
-    for (i = 0; i <= listingAddressArray.length - 1; i += 1) {
-
-      var divCard = $("<div>");
-      divCard.attr("class", "card m-2");
-      var imagTag = $("<img>");
-      var linkTag = $("<a>");
-      //Address of the link 
-      linkTag.attr("class", "btn-warning")
-      // address of the image to show 
-      imagTag.attr("class", "card-img-top");
-      // insert picture name from response 
-      imagTag.attr("atl", "picture");
-      linkTag.append(imagTag);
-      divCard.append(linkTag);
-      var divCardBody = $("<div>");
-      divCardBody.attr("class", "card-body-listing");
-      divCardBody.addClass("card-body")
-      var h5text = $("<h5>").text(listingAddressArray[i]);
-      h5text.attr("class", "card-title");
-      var ptext = $("<p>").text("Price: $" + listingPriceArray[i]);
-      ptext.attr("class", "card-text");
-      divCardBody.append(h5text);
-      divCardBody.append(ptext);
-      divCard.append(divCardBody);
-      //Appending to the div card
-      $("#response-cards").append(divCard);
+    else if(choiceLs === 2){
+        var eventInfo = localStorage.getItem('eventInfoLs')
+        eventInfo=JSON.parse(eventInfo);
+        // display random choice to html page
+        var chooseAgainEl = document.createElement("p");
+        chooseAgainEl.textContent = "(Click again for another option.)";
+        displayEl.appendChild(chooseAgainEl);
+ 
+        var eventChoiceEl = document.createElement("h1");
+        eventChoiceEl.textContent = "Plan your next outing!";
+        displayEl.appendChild(eventChoiceEl);
+ 
+        var titleEl = document.createElement("h2");
+        titleEl.textContent = eventInfo.name;
+        displayEl.appendChild(titleEl);
+ 
+        // NEED TO GET JUST IMAGE URL FROM DATA TO USE
+        // var imageEl = document.createElement("img");
+        // imageEl.setAttribute("src", eventInfo.image);
+        // displayEl.appendChild(imageEl);
+ 
+        var startDateEl = document.createElement("p");
+        startDateEl.textContent = `Date: ${eventInfo.startDate}`;
+        displayEl.appendChild(startDateEl);
+        
+        var startTimeEl = document.createElement("p");
+        startTimeEl.textContent = `Start Time: ${eventInfo.startTime}`;
+        displayEl.appendChild(startTimeEl);
+        
+        var urlEl = document.createElement("a");
+        urlEl.textContent = "Click here to buy tickets now!";
+        urlEl.setAttribute("href", eventInfo.url);
+        displayEl.appendChild(urlEl);
     }
-
-
-    var service = new google.maps.DistanceMatrixService();
-    var origins = listingAddressArray;
-    console.log(origins);
-    var destination = workAddress;
-    service.getDistanceMatrix(
-      {
-        origins: origins,
-        destinations: [destination],
-        travelMode: 'DRIVING',
-      }, callback)
-
-    function callback(response) {
-      $(".card-body-listing").each(function (index) {
-        var ptext2 = $("<p>").text("Commute time: " + response.rows[index].elements[0].duration.text);
-        ptext2.attr("class", "card-text");
-        $(this).append(ptext2);
-      })
+    else{
+        console.log("Hi How's it going")
     }
-
-    console.log(lat);
-    console.log(lng);
-    var mymap = L.map('mapid').setView([lat, lng], 20);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2JhcnJvdzgyNSIsImEiOiJja2NhbXd5ZzUxd3IzMnJtcmJ4N2owZmtsIn0.vEUrS18G5gRKMxTVJ0V34A', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: 'your.mapbox.access.token'
-    }).addTo(mymap);
-
-    var marker = L.marker([lat, lng]).addTo(mymap);
-    marker.bindPopup("<b>Searched Address</b>").openPopup();
-
-    for (i = 0; i <= theaterAddressArray.length; i += 1) {
-      console.log(theaterAddressArray[i])
-      var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + listingAddressArray[i] + "&key=AIzaSyBif25LVSExkbgkV3IKS3LdU7u7A2U68ww"
-      // Converting each theater request into lat lng and creating a marker on the map
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      }).then(function (response) {
-        var lat = response.results[0].geometry.location.lat;
-        var lng = response.results[0].geometry.location.lng;
-        var marker = L.marker([lat, lng]).addTo(mymap);
-      })
-    }
-
-  })
 }
+renderLastChoice();
+
+// create a function to fetch staying home data for button click
+var homeClickHandler = function () {
+	displayEl.innerHTML = ""
+	loadingEl.classList.toggle("visibility")
+	// create a random number between 1 and 9 to use as random page generated in watchmode data (that's how many pages are shown with this type=movies)
+	var randomPage = Math.floor((Math.random() * 9) + 1)
+
+	// Get data from watchmode for id of random movie
+	//  "Streaming data powered by Watchmode.com"
+	fetch(`https://api.watchmode.com/v1/list-titles/?apiKey=kzLgYLX7rWTr6JhDKvxp1yGMscrDZCCQM81OApCG&source_ids=203&types=movie&page=${randomPage}`)
+		.then(function (response) {
+			if (response.ok) {
+				return response.json()
+			}
+		})
+		.then(function (body) {
+			console.log(body)
+
+			// use math.random to choose a random movie from the list of data and get movie id from data
+			var movieTitleId = body.titles[Math.floor(Math.random() * body.titles.length)].id;
+
+			// fetch title details for random movie using 
+			return fetch(`https://api.watchmode.com/v1/title/${movieTitleId}/details/?apiKey=kzLgYLX7rWTr6JhDKvxp1yGMscrDZCCQM81OApCG`)
+		})
+		.then(function (titleResponse) {
+			if (titleResponse.ok) {
+				loadingEl.classList.toggle("visibility");
+				return titleResponse.json()
+				
+			}
+			
+		})
+		.then(function (titleBody) {
+			// console.log(titleBody)
+			var movieInfo = {
+				title: titleBody.title,
+				rating: titleBody.us_rating,
+				userRating: titleBody.user_rating,
+				description: titleBody.plot_overview,
+				runtime: titleBody.runtime_minutes,
+				year: titleBody.year
+			}
+			console.log(movieInfo);
+			var movieInfoJs=JSON.stringify(movieInfo);
+			localStorage.setItem('movieInfoLs',movieInfoJs);
+			localStorage.setItem('choice',1);
+			displayEl.textContent = ""
+
+			// display random choice to html page
+			var chooseAgainEl = document.createElement("p");
+			chooseAgainEl.textContent = "(Click again for another option.)";
+			displayEl.appendChild(chooseAgainEl);
+
+			var netflixChoiceEl = document.createElement("h1");
+			netflixChoiceEl.textContent = "Watch this movie on Netflix!"
+			displayEl.appendChild(netflixChoiceEl);
+
+			var titleEl = document.createElement("h2");
+			titleEl.textContent = movieInfo.title;
+			displayEl.appendChild(titleEl);
+
+			var ratingEl = document.createElement("span");
+			if (!movieInfo.rating) {
+				ratingEl.textContent = "Rated: NR";
+			} else {
+				ratingEl.textContent = `Rated: ${movieInfo.rating}`;
+			}
+			displayEl.appendChild(ratingEl);
+
+			var userRatingEl = document.createElement("div");
+			userRatingEl.textContent = `User Rating: ${movieInfo.userRating}`
+			displayEl.appendChild(userRatingEl);
+
+			var runtimeEl = document.createElement("div");
+			runtimeEl.textContent = `Runtime: ${movieInfo.runtime} minutes`;
+			displayEl.appendChild(runtimeEl);
+
+			var releaseDateEl = document.createElement("div");
+			releaseDateEl.textContent = `Released: ${movieInfo.year}`;
+			displayEl.appendChild(releaseDateEl);
+
+			var descriptionLabel = document.createElement("h3");
+			descriptionLabel.textContent = "Movie Summary:";
+			displayEl.appendChild(descriptionLabel);
+
+			var descriptionEl = document.createElement("p");
+			descriptionEl.textContent = movieInfo.description;
+			displayEl.appendChild(descriptionEl);
+		})
+}
+
+
+
+// create a function for going out data for button click
+var goingOutClickHandler = function () {
+	displayEl.innerHTML = ""
+	loadingEl.classList.toggle("visibility")
+	// get users current location
+	navigator.geolocation.getCurrentPosition((position) => {
+		
+		var latitude = position.coords.latitude;
+		// console.log(latitude);
+		var longitude = position.coords.longitude;
+		// console.log(longitude);
+		
+		// get data from ticketmaster for name, description, image, cost, and location
+		fetch(`https://app.ticketmaster.com/discovery/v2/suggest?latlong=${latitude},${longitude}&apikey=YxRbBqJ0OORNTA5ARkyi5R1uZSTtZHdH`)
+			.then(function (response) {
+				if (response.ok) {
+					
+					return response.json()
+				}
+			})
+			.then(function (body) {
+				console.log(body)
+
+				// use math.random to choose a random event from the list of data
+				var randomEvent = body._embedded.events[Math.floor(Math.random() * body._embedded.events.length)];
+				// console.log(randomEvent);
+
+				// create variables to hold this data
+				var eventInfo = {
+					name: randomEvent.name,
+					url: randomEvent.url,
+					startDate: randomEvent.dates.start.localDate,
+					startTime: randomEvent.dates.start.localTime
+				}
+				console.log(eventInfo);
+				loadingEl.classList.toggle("visibility");
+                var eventInfoJs=JSON.stringify(eventInfo);
+                localStorage.setItem('eventInfoLs',eventInfoJs);
+                localStorage.setItem('choice',2);
+				displayEl.textContent = ""
+
+				// display random choice to html page
+				var chooseAgainEl = document.createElement("p");
+				chooseAgainEl.textContent = "(Click again for another option.)";
+				displayEl.appendChild(chooseAgainEl);
+
+				var eventChoiceEl = document.createElement("h1");
+				eventChoiceEl.textContent = "Plan your next outing!";
+				displayEl.appendChild(eventChoiceEl);
+
+				var titleEl = document.createElement("h2");
+				titleEl.textContent = eventInfo.name;
+				displayEl.appendChild(titleEl);
+
+				// NEED TO GET JUST IMAGE URL FROM DATA TO USE
+				// var imageEl = document.createElement("img");
+				// imageEl.setAttribute("src", eventInfo.image);
+				// displayEl.appendChild(imageEl);
+
+				var startDateEl = document.createElement("p");
+				startDateEl.textContent = `Date: ${eventInfo.startDate}`;
+				displayEl.appendChild(startDateEl);
+				
+				var startTimeEl = document.createElement("p");
+				startTimeEl.textContent = `Start Time: ${eventInfo.startTime}`;
+				displayEl.appendChild(startTimeEl);
+				
+				var urlEl = document.createElement("a");
+				urlEl.textContent = "Click here to buy tickets now!";
+				urlEl.setAttribute("href", eventInfo.url);
+				displayEl.appendChild(urlEl);
+			})
+
+	}, function error(err) {
+		swal("Oops!", "You must share your location for this app to work!", "error");
+	})
+
+
+}
+
+
+
+
+
+// Click handlers
+homeBtnEl.addEventListener("click", homeClickHandler);
+outBtnEl.addEventListener("click", goingOutClickHandler);

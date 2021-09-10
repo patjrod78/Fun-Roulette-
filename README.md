@@ -9,7 +9,7 @@ None required. Click the foloowing link and let the fun begin!!
 https://patjrod78.github.io/Fun-Roulette-/
 
 
-<img width="423" alt="fun-finder" src="https://user-images.githubusercontent.com/84256033/128444197-e4e696bd-afe9-4ff7-be41-d4cd82ff2e89.png">
+![image](https://user-images.githubusercontent.com/82895280/132893932-d419178e-3988-40fb-9365-965ea60e713d.png)
 
 ## Contributors
 *Patrick Rodriguez

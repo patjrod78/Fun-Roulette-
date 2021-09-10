@@ -7,6 +7,8 @@ Bored and need help finding something new and fun? We are here for you! Just cho
 <img width="423" alt="fun-finder" src="https://user-images.githubusercontent.com/84256033/128444197-e4e696bd-afe9-4ff7-be41-d4cd82ff2e89.png">
 
 ## Contributors
--Patrick Rodriguez 
+-Patrick Rodriguez
+
 -Jack St. Pierre
+
 -Audry Ford

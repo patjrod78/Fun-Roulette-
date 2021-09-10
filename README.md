@@ -1,6 +1,9 @@
 # Fun Finder
 ## Description
-Bored and need help finding something new and fun? We are here for you! Just choose if you want to go out or stay in and we will choose for you. Going out consists of finding a nearby event coming up. Staying in will choose a random movie on Netflix for your viewing pleasure.
+Bored with nothing to do? Tired of the doing the same old thing? Then "Fun Roulette" is for you. Take the predictability or indecisiveness out of your day/night plans. 
+
+ Simply click "Staying In" or Going Out" and Fun Roulette does the rest. Life is a game of chances, now your fun can be too!
+
 ## Installation
 
 

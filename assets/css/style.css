@@ -59,3 +59,22 @@ div.form-group {
     height: 1000px;
     width: 1000px;
 }
+
+.visibility {
+    display: none;
+}
+
+#loading {
+    font-size: 10rem;
+    color: gray;
+}
+
+.background {
+    background-color: gainsboro;
+}
+
+.display {
+    border-color: maroon;
+    border-style: solid;
+    padding: 1rem;
+}

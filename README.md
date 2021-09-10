@@ -1,4 +1,4 @@
-# Fun Finder
+# Fun Roulette
 ## Description
 Bored with nothing to do? Tired of the doing the same old thing? Then "Fun Roulette" is for you. Take the predictability or indecisiveness out of your day/night plans. 
 
